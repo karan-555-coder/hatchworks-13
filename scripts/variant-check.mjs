@@ -44,7 +44,7 @@ async function measure() {
   (bodyScroll ? body : window).scrollTo(0, 0);
   await sleep(2600);                                                   // reveals finish, nothing left hidden
   if (document.fonts) await document.fonts.ready;                      // late web fonts change line wraps
-  const DECOR = '.au-sky,.au-progress,.tc-grain,.tc-progress,.fr-grain,.fr-progress,.nb-deco-layer,.nb-progress';
+  const DECOR = '.au-sky,.au-progress,.tc-grain,.tc-progress,.fr-grain,.fr-progress,.em-grain,.em-progress,.nb-deco-layer,.nb-progress';
   const skip = el => el.closest(DECOR) || /^(SCRIPT|STYLE|LINK|NOSCRIPT|TEMPLATE)$/.test(el.tagName);
   const nodes = [...body.querySelectorAll('*')].filter(el => !skip(el));
   // structure (tags + nesting depth, in order) and text are fingerprinted separately

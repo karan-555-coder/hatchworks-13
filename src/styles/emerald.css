@@ -1,0 +1,182 @@
+/*
+ * Emerald Ivory skin, loaded last.
+ *
+ *   palette     ice #f8f7f0 · glacier blue #0f8a5f · slate #13261d · coral #d4a62a
+ *   motion      blur-to-focus: content sharpens out of a soft blur as it scrolls in
+ *   hover       spotlight: a cool light follows the cursor across cards, with a glacier ring
+ *   atmosphere  a faint dot grid that drifts slowly with scroll
+ *   type        large headings arrive as a glacier outline that fills with ink
+ *
+ * Visual only: no layout, sizes, content or order change. Colours are remapped at build time
+ * (scripts/variants/emerald.mjs); classes prefixed em- are added by scripts/emerald.js.
+ */
+
+:root {
+  --em-ice: #f8f7f0;
+  --em-ice2: #efeee3;
+  --em-glacier: #0f8a5f;
+  --em-glacier-deep: #0b6b49;
+  --em-slate: #13261d;
+  --em-coral: #d4a62a;
+
+  --em-fg: #13261d;
+  --em-fg2: #21372c;
+  --em-white: #13261d;
+  --em-muted: #52665a;
+  --em-accent: #0b6b49;
+  --em-accent2: #174535;
+  --em-deep: #174535;
+  --em-hot: #a87a10;
+  --em-line: rgba(19, 38, 29, .14);
+  --em-line2: rgba(19, 38, 29, .3);
+  --em-glow: #0f8a5f;
+
+  --em-ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* ---------- base ---------------------------------------------------------- */
+html { scrollbar-color: var(--em-glacier) var(--em-ice2); }
+body { background-color: var(--em-ice); color: var(--em-fg); }
+::selection { background: rgba(15, 138, 95, .28); color: var(--em-slate); }
+:focus-visible { outline: 2px solid var(--em-glacier) !important; outline-offset: 3px; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--em-ice2); }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--em-glacier), #5fbf93); border: 3px solid var(--em-ice2); border-radius: 12px; }
+hr { border-color: var(--em-line) !important; }
+blockquote { border-left-color: var(--em-glacier) !important; }
+
+/* ---------- typography: outline-to-fill headings ---------------------------- */
+/* the stroke and fill are paint only: glyph metrics and line boxes never change */
+.em-ink { -webkit-text-stroke-width: 1.2px; }
+@keyframes em-ink {
+  0%, 30% { -webkit-text-fill-color: transparent; -webkit-text-stroke-color: var(--em-glacier); }
+  100%    { -webkit-text-fill-color: currentColor; -webkit-text-stroke-color: transparent; }
+}
+
+/* body links: a cool underline that draws in */
+.em-prose-link {
+  text-decoration: none !important;
+  background-image: linear-gradient(var(--em-glacier), var(--em-glacier)), linear-gradient(var(--em-line2), var(--em-line2)) !important;
+  background-repeat: no-repeat !important;
+  background-size: 0% 1.5px, 100% 1px !important;
+  background-position: 0 100%, 0 100% !important;
+  transition: background-size .45s var(--em-ease), color .2s;
+}
+.em-prose-link:hover { color: var(--em-accent) !important; background-size: 100% 1.5px, 100% 1px !important; }
+.hwf-col-list a, #hwnav .hw-list > li > a, #hwnav .hw-link { transition: color .2s, text-shadow .3s; }
+.hwf-col-list a:hover, #hwnav .hw-list > li > a:hover, #hwnav .hw-link:hover { color: var(--em-glacier) !important; text-shadow: 0 0 14px rgba(15, 138, 95, .35); }
+
+/* ---------- buttons: emeralded lift ------------------------------------------- */
+.em-btn, #hwnav .hw-btn, .elementor-button, .hs-button, input[type="submit"], button[type="submit"] {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 8px 22px -14px color-mix(in srgb, var(--em-glow) 85%, transparent) !important;
+  transition: translate .35s var(--em-ease), box-shadow .35s var(--em-ease), filter .3s, background-color .25s, color .25s !important;
+}
+.em-btn:hover, #hwnav .hw-btn:hover, .elementor-button:hover, .hs-button:hover, input[type="submit"]:hover, button[type="submit"]:hover {
+  translate: 0 -2px;
+  filter: saturate(1.08) brightness(1.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 0 0 3px color-mix(in srgb, var(--em-glow) 25%, transparent),
+    0 16px 30px -14px color-mix(in srgb, var(--em-glow) 90%, transparent) !important;
+}
+.em-btn:active, .elementor-button:active, input[type="submit"]:active, button[type="submit"]:active { translate: 0 0; filter: brightness(.96); }
+.em-btn svg, .em-btn i, .elementor-button svg, .elementor-button i { transition: translate .35s var(--em-ease); }
+.em-btn:hover svg, .em-btn:hover i, .elementor-button:hover svg, .elementor-button:hover i { translate: 3px 0; }
+.em-pill { transition: box-shadow .3s var(--em-ease), background-color .3s, color .3s; }
+a.em-pill:hover, button.em-pill:hover { box-shadow: 0 0 0 2px rgba(15, 138, 95, .5) !important; }
+
+/* ---------- form fields ----------------------------------------------------- */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):not([type="file"]):not([type="image"]),
+textarea, select { transition: box-shadow .3s var(--em-ease), border-color .3s; caret-color: var(--em-glacier); }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):not([type="file"]):not([type="image"]):focus,
+textarea:focus, select:focus {
+  outline: 0 !important; border-color: var(--em-glacier) !important;
+  box-shadow: 0 0 0 4px rgba(15, 138, 95, .16) !important;
+}
+
+/* ---------- cards: spotlight ------------------------------------------------- */
+.em-card {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 14px 30px -26px rgba(16, 40, 28, .45);
+  transition: box-shadow .45s var(--em-ease), border-color .4s;
+}
+.em-card.em-hot:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 0 0 1px rgba(15, 138, 95, .5), 0 0 26px -8px rgba(15, 138, 95, .45),
+    0 26px 44px -26px rgba(16, 40, 28, .4) !important;
+}
+/* the light follows the pointer (em-spot, positions from emerald.js) */
+.em-card.em-spot {
+  background-image: radial-gradient(380px circle at var(--em-mx, 50%) var(--em-my, 50%), rgba(15, 138, 95, .13), rgba(95, 191, 147, .05) 45%, transparent 70%) !important;
+}
+.em-img { transition: filter .6s var(--em-ease); }
+a:hover .em-img, .em-img:hover { filter: saturate(1.05) brightness(1.05) hue-rotate(-6deg); }
+
+/* sections drawn over dark photography keep light ink (set by emerald.js) */
+.em-darkzone {
+  --em-fg: #f8f7f0 !important; --em-fg2: #ecebe0 !important; --em-white: #f8f7f0 !important; --em-muted: #c9d6cc !important;
+  --em-accent: #7fd3a8 !important; --em-accent2: #d6e8dc !important; --em-deep: #d6e8dc !important; --em-hot: #e8c15a !important;
+  --em-line: rgba(248, 247, 240, .2) !important; --em-line2: rgba(248, 247, 240, .36) !important; --em-glow: #7fd3a8 !important;
+}
+/* background film is emeralded into a pale ice glow so ink reads on it */
+.em-sunwash { filter: invert(1) hue-rotate(120deg) saturate(.7) brightness(1.06) contrast(.78) !important; opacity: .6; }
+.em-sunwash ~ canvas { filter: invert(.1) hue-rotate(0deg) saturate(1.2); }
+
+/* white logos on transparent backgrounds are inked onto the ice */
+.em-inv, .em-inv-force { filter: brightness(0) opacity(.75) !important; }
+.em-darkzone .em-inv, .em-darkzone .em-inv-force { filter: none !important; }
+html body .hwts.hwts.hwts { --hwts-logo-filter: brightness(0) opacity(.7) !important; --hwts-line: rgba(19, 38, 29, .12) !important; }
+
+/* ---------- site chrome ------------------------------------------------------- */
+#hwnav .hw-bar { box-shadow: 0 1px 0 var(--em-line), 0 10px 30px -24px rgba(16, 40, 28, .45) !important; backdrop-filter: saturate(1.2); }
+#hwnav .hw-panel { box-shadow: 0 0 0 1px var(--em-line), 0 40px 70px -34px rgba(16, 40, 28, .5) !important; }
+.hw-ann { box-shadow: inset 0 -1px 0 rgba(19, 38, 29, .12); }
+.hwf-soc { transition: box-shadow .35s var(--em-ease), color .2s; }
+.hwf-soc:hover { box-shadow: 0 0 0 2px var(--em-glacier), 0 0 18px -4px rgba(15, 138, 95, .6); }
+
+/* ---------- reveals: blur-to-focus ----------------------------------------------- */
+.em-wait { opacity: 0 !important; }
+.em-in { animation-duration: 1s; animation-timing-function: var(--em-ease); animation-fill-mode: both; animation-delay: var(--em-d, 0ms); }
+.em-in.em-fx-rise { animation-name: em-focus; animation-duration: 1.2s; }
+.em-in.em-fx-up { animation-name: em-focus-up; }
+.em-in.em-fx-photo { animation-name: em-focus-photo; animation-duration: 1.2s; }
+.em-in.em-fx-rise.em-ink { animation-name: em-focus, em-ink; animation-duration: 1.2s, 1.2s; }
+
+@keyframes em-focus {
+  from { opacity: 0; filter: blur(14px); scale: .985; }
+  to   { opacity: 1; filter: blur(0); scale: 1; }
+}
+@keyframes em-focus-up {
+  from { opacity: 0; filter: blur(10px); translate: 0 18px; }
+  to   { opacity: 1; filter: blur(0); translate: 0 0; }
+}
+@keyframes em-focus-photo {
+  from { opacity: 0; filter: blur(18px) saturate(.4) brightness(1.15); scale: 1.04; }
+  to   { opacity: 1; filter: none; scale: 1; }
+}
+.em-hero-rise { animation: em-focus 1.4s var(--em-ease) .1s both; }
+.em-hero-rise.em-ink { animation: em-focus 1.4s var(--em-ease) .1s both, em-ink 1.4s var(--em-ease) .1s both; }
+
+/* ---------- dot grid (injected, aria-hidden, non-interactive) ----------------------- */
+.em-grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 2147482000;
+  background-image: radial-gradient(circle at 1px 1px, rgba(11, 107, 73, .22) 1px, transparent 1.6px);
+  background-size: 26px 26px;
+  background-position: 0 var(--em-par, 0px);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, .9), rgba(0, 0, 0, .35));
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, .9), rgba(0, 0, 0, .35));
+  opacity: .55;
+}
+.em-progress {
+  position: fixed; left: 0; top: 0; height: 3px; width: 100%; z-index: 2147483000;
+  background: linear-gradient(90deg, var(--em-glacier), #5fbf93, var(--em-coral));
+  transform-origin: 0 50%; transform: scaleX(var(--em-progress, 0)); pointer-events: none;
+}
+
+@media (max-width: 767px) { .em-grain { opacity: .4; background-size: 22px 22px; } }
+@media (prefers-reduced-motion: reduce) {
+  .em-in, .em-hero-rise { animation: none !important; }
+  .em-wait { opacity: 1 !important; }
+  .em-ink { -webkit-text-stroke-width: 0; }
+  .em-card, .em-btn, .em-img, .em-pill { transition: none !important; }
+}
+@media print {
+  .em-grain, .em-progress { display: none !important; }
+  .em-wait { opacity: 1 !important; }
+}

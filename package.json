@@ -22,6 +22,9 @@
     "build:frost": "node scripts/build.mjs --variant=frost",
     "serve:frost": "node scripts/serve.mjs --variant=frost",
     "dev:frost": "npm run build:frost && npm run serve:frost",
+    "build:emerald": "node scripts/build.mjs --variant=emerald",
+    "serve:emerald": "node scripts/serve.mjs --variant=emerald",
+    "dev:emerald": "npm run build:emerald && npm run serve:emerald",
     "build:original": "node scripts/build.mjs --variant=original",
     "serve:original": "node scripts/serve.mjs --variant=original",
     "check:variant": "node scripts/variant-check.mjs"
