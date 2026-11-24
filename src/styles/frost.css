@@ -1,0 +1,182 @@
+/*
+ * Nordic Frost skin, loaded last.
+ *
+ *   palette     ice #f4f8fb · glacier blue #3b82c4 · slate #1e2a36 · coral #ff6b5a
+ *   motion      blur-to-focus: content sharpens out of a soft blur as it scrolls in
+ *   hover       spotlight: a cool light follows the cursor across cards, with a glacier ring
+ *   atmosphere  a faint dot grid that drifts slowly with scroll
+ *   type        large headings arrive as a glacier outline that fills with ink
+ *
+ * Visual only: no layout, sizes, content or order change. Colours are remapped at build time
+ * (scripts/variants/frost.mjs); classes prefixed fr- are added by scripts/frost.js.
+ */
+
+:root {
+  --fr-ice: #f4f8fb;
+  --fr-ice2: #e8eff6;
+  --fr-glacier: #3b82c4;
+  --fr-glacier-deep: #2a68a3;
+  --fr-slate: #1e2a36;
+  --fr-coral: #ff6b5a;
+
+  --fr-fg: #1e2a36;
+  --fr-fg2: #2d3b4a;
+  --fr-white: #1e2a36;
+  --fr-muted: #56677a;
+  --fr-accent: #2a68a3;
+  --fr-accent2: #2b4560;
+  --fr-deep: #2b4560;
+  --fr-hot: #d94a3c;
+  --fr-line: rgba(30, 42, 54, .14);
+  --fr-line2: rgba(30, 42, 54, .3);
+  --fr-glow: #3b82c4;
+
+  --fr-ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* ---------- base ---------------------------------------------------------- */
+html { scrollbar-color: var(--fr-glacier) var(--fr-ice2); }
+body { background-color: var(--fr-ice); color: var(--fr-fg); }
+::selection { background: rgba(59, 130, 196, .28); color: var(--fr-slate); }
+:focus-visible { outline: 2px solid var(--fr-glacier) !important; outline-offset: 3px; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--fr-ice2); }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--fr-glacier), #7fb3e0); border: 3px solid var(--fr-ice2); border-radius: 12px; }
+hr { border-color: var(--fr-line) !important; }
+blockquote { border-left-color: var(--fr-glacier) !important; }
+
+/* ---------- typography: outline-to-fill headings ---------------------------- */
+/* the stroke and fill are paint only: glyph metrics and line boxes never change */
+.fr-ink { -webkit-text-stroke-width: 1.2px; }
+@keyframes fr-ink {
+  0%, 30% { -webkit-text-fill-color: transparent; -webkit-text-stroke-color: var(--fr-glacier); }
+  100%    { -webkit-text-fill-color: currentColor; -webkit-text-stroke-color: transparent; }
+}
+
+/* body links: a cool underline that draws in */
+.fr-prose-link {
+  text-decoration: none !important;
+  background-image: linear-gradient(var(--fr-glacier), var(--fr-glacier)), linear-gradient(var(--fr-line2), var(--fr-line2)) !important;
+  background-repeat: no-repeat !important;
+  background-size: 0% 1.5px, 100% 1px !important;
+  background-position: 0 100%, 0 100% !important;
+  transition: background-size .45s var(--fr-ease), color .2s;
+}
+.fr-prose-link:hover { color: var(--fr-accent) !important; background-size: 100% 1.5px, 100% 1px !important; }
+.hwf-col-list a, #hwnav .hw-list > li > a, #hwnav .hw-link { transition: color .2s, text-shadow .3s; }
+.hwf-col-list a:hover, #hwnav .hw-list > li > a:hover, #hwnav .hw-link:hover { color: var(--fr-glacier) !important; text-shadow: 0 0 14px rgba(59, 130, 196, .35); }
+
+/* ---------- buttons: frosted lift ------------------------------------------- */
+.fr-btn, #hwnav .hw-btn, .elementor-button, .hs-button, input[type="submit"], button[type="submit"] {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 8px 22px -14px color-mix(in srgb, var(--fr-glow) 85%, transparent) !important;
+  transition: translate .35s var(--fr-ease), box-shadow .35s var(--fr-ease), filter .3s, background-color .25s, color .25s !important;
+}
+.fr-btn:hover, #hwnav .hw-btn:hover, .elementor-button:hover, .hs-button:hover, input[type="submit"]:hover, button[type="submit"]:hover {
+  translate: 0 -2px;
+  filter: saturate(1.08) brightness(1.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 0 0 3px color-mix(in srgb, var(--fr-glow) 25%, transparent),
+    0 16px 30px -14px color-mix(in srgb, var(--fr-glow) 90%, transparent) !important;
+}
+.fr-btn:active, .elementor-button:active, input[type="submit"]:active, button[type="submit"]:active { translate: 0 0; filter: brightness(.96); }
+.fr-btn svg, .fr-btn i, .elementor-button svg, .elementor-button i { transition: translate .35s var(--fr-ease); }
+.fr-btn:hover svg, .fr-btn:hover i, .elementor-button:hover svg, .elementor-button:hover i { translate: 3px 0; }
+.fr-pill { transition: box-shadow .3s var(--fr-ease), background-color .3s, color .3s; }
+a.fr-pill:hover, button.fr-pill:hover { box-shadow: 0 0 0 2px rgba(59, 130, 196, .5) !important; }
+
+/* ---------- form fields ----------------------------------------------------- */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):not([type="file"]):not([type="image"]),
+textarea, select { transition: box-shadow .3s var(--fr-ease), border-color .3s; caret-color: var(--fr-glacier); }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):not([type="file"]):not([type="image"]):focus,
+textarea:focus, select:focus {
+  outline: 0 !important; border-color: var(--fr-glacier) !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 196, .16) !important;
+}
+
+/* ---------- cards: spotlight ------------------------------------------------- */
+.fr-card {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 14px 30px -26px rgba(20, 40, 70, .45);
+  transition: box-shadow .45s var(--fr-ease), border-color .4s;
+}
+.fr-card.fr-hot:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 0 0 1px rgba(59, 130, 196, .5), 0 0 26px -8px rgba(59, 130, 196, .45),
+    0 26px 44px -26px rgba(20, 40, 70, .4) !important;
+}
+/* the light follows the pointer (fr-spot, positions from frost.js) */
+.fr-card.fr-spot {
+  background-image: radial-gradient(380px circle at var(--fr-mx, 50%) var(--fr-my, 50%), rgba(59, 130, 196, .13), rgba(127, 179, 224, .05) 45%, transparent 70%) !important;
+}
+.fr-img { transition: filter .6s var(--fr-ease); }
+a:hover .fr-img, .fr-img:hover { filter: saturate(1.05) brightness(1.05) hue-rotate(-6deg); }
+
+/* sections drawn over dark photography keep light ink (set by frost.js) */
+.fr-darkzone {
+  --fr-fg: #f4f8fb !important; --fr-fg2: #e3ebf2 !important; --fr-white: #f4f8fb !important; --fr-muted: #c9d5e1 !important;
+  --fr-accent: #8fc3f0 !important; --fr-accent2: #cfe0ee !important; --fr-deep: #cfe0ee !important; --fr-hot: #ff8a7c !important;
+  --fr-line: rgba(244, 248, 251, .2) !important; --fr-line2: rgba(244, 248, 251, .36) !important; --fr-glow: #8fc3f0 !important;
+}
+/* background film is frosted into a pale ice glow so ink reads on it */
+.fr-sunwash { filter: invert(1) hue-rotate(180deg) saturate(.75) brightness(1.06) contrast(.78) !important; opacity: .6; }
+.fr-sunwash ~ canvas { filter: invert(.1) hue-rotate(0deg) saturate(1.2); }
+
+/* white logos on transparent backgrounds are inked onto the ice */
+.fr-inv, .fr-inv-force { filter: brightness(0) opacity(.75) !important; }
+.fr-darkzone .fr-inv, .fr-darkzone .fr-inv-force { filter: none !important; }
+html body .hwts.hwts.hwts { --hwts-logo-filter: brightness(0) opacity(.7) !important; --hwts-line: rgba(30, 42, 54, .12) !important; }
+
+/* ---------- site chrome ------------------------------------------------------- */
+#hwnav .hw-bar { box-shadow: 0 1px 0 var(--fr-line), 0 10px 30px -24px rgba(20, 40, 70, .45) !important; backdrop-filter: saturate(1.2); }
+#hwnav .hw-panel { box-shadow: 0 0 0 1px var(--fr-line), 0 40px 70px -34px rgba(20, 40, 70, .5) !important; }
+.hw-ann { box-shadow: inset 0 -1px 0 rgba(30, 42, 54, .12); }
+.hwf-soc { transition: box-shadow .35s var(--fr-ease), color .2s; }
+.hwf-soc:hover { box-shadow: 0 0 0 2px var(--fr-glacier), 0 0 18px -4px rgba(59, 130, 196, .6); }
+
+/* ---------- reveals: blur-to-focus ----------------------------------------------- */
+.fr-wait { opacity: 0 !important; }
+.fr-in { animation-duration: 1s; animation-timing-function: var(--fr-ease); animation-fill-mode: both; animation-delay: var(--fr-d, 0ms); }
+.fr-in.fr-fx-rise { animation-name: fr-focus; animation-duration: 1.2s; }
+.fr-in.fr-fx-up { animation-name: fr-focus-up; }
+.fr-in.fr-fx-photo { animation-name: fr-focus-photo; animation-duration: 1.2s; }
+.fr-in.fr-fx-rise.fr-ink { animation-name: fr-focus, fr-ink; animation-duration: 1.2s, 1.2s; }
+
+@keyframes fr-focus {
+  from { opacity: 0; filter: blur(14px); scale: .985; }
+  to   { opacity: 1; filter: blur(0); scale: 1; }
+}
+@keyframes fr-focus-up {
+  from { opacity: 0; filter: blur(10px); translate: 0 18px; }
+  to   { opacity: 1; filter: blur(0); translate: 0 0; }
+}
+@keyframes fr-focus-photo {
+  from { opacity: 0; filter: blur(18px) saturate(.4) brightness(1.15); scale: 1.04; }
+  to   { opacity: 1; filter: none; scale: 1; }
+}
+.fr-hero-rise { animation: fr-focus 1.4s var(--fr-ease) .1s both; }
+.fr-hero-rise.fr-ink { animation: fr-focus 1.4s var(--fr-ease) .1s both, fr-ink 1.4s var(--fr-ease) .1s both; }
+
+/* ---------- dot grid (injected, aria-hidden, non-interactive) ----------------------- */
+.fr-grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 2147482000;
+  background-image: radial-gradient(circle at 1px 1px, rgba(42, 104, 163, .22) 1px, transparent 1.6px);
+  background-size: 26px 26px;
+  background-position: 0 var(--fr-par, 0px);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, .9), rgba(0, 0, 0, .35));
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, .9), rgba(0, 0, 0, .35));
+  opacity: .55;
+}
+.fr-progress {
+  position: fixed; left: 0; top: 0; height: 3px; width: 100%; z-index: 2147483000;
+  background: linear-gradient(90deg, var(--fr-glacier), #7fb3e0, var(--fr-coral));
+  transform-origin: 0 50%; transform: scaleX(var(--fr-progress, 0)); pointer-events: none;
+}
+
+@media (max-width: 767px) { .fr-grain { opacity: .4; background-size: 22px 22px; } }
+@media (prefers-reduced-motion: reduce) {
+  .fr-in, .fr-hero-rise { animation: none !important; }
+  .fr-wait { opacity: 1 !important; }
+  .fr-ink { -webkit-text-stroke-width: 0; }
+  .fr-card, .fr-btn, .fr-img, .fr-pill { transition: none !important; }
+}
+@media print {
+  .fr-grain, .fr-progress { display: none !important; }
+  .fr-wait { opacity: 1 !important; }
+}

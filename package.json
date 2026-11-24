@@ -19,6 +19,9 @@
     "build:terracotta": "node scripts/build.mjs --variant=terracotta",
     "serve:terracotta": "node scripts/serve.mjs --variant=terracotta",
     "dev:terracotta": "npm run build:terracotta && npm run serve:terracotta",
+    "build:frost": "node scripts/build.mjs --variant=frost",
+    "serve:frost": "node scripts/serve.mjs --variant=frost",
+    "dev:frost": "npm run build:frost && npm run serve:frost",
     "build:original": "node scripts/build.mjs --variant=original",
     "serve:original": "node scripts/serve.mjs --variant=original",
     "check:variant": "node scripts/variant-check.mjs"

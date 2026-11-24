@@ -6,9 +6,10 @@
 import neobrutal from './neobrutal.mjs';
 import aurora from './aurora.mjs';
 import terracotta from './terracotta.mjs';
+import frost from './frost.mjs';
 import original from './original.mjs';
 
-export const VARIANTS = { neobrutal, aurora, terracotta, original };
+export const VARIANTS = { neobrutal, aurora, terracotta, frost, original };
 
 // the variant comes from --variant=<name> (works in every shell, used by the npm scripts) or VARIANT
 const flag = (process.argv.find(a => a.startsWith('--variant=')) || '').split('=')[1];
